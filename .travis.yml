@@ -1,0 +1,28 @@
+---
+
+language: generic 
+sudo: required
+serviced:
+  - docker
+
+# Build the test image using the dockerfile.dev file 
+before_install:
+  - docker build -t ragabi/react-test -f ./client/Dockerfile.dev ./client 
+# Run the build image and testing it 
+sctipt:
+  - docker run -e CI=true ragabi/react-test npm test
+# If the test wont return error code then after success will run 
+# Building all required images 
+after_success:
+  - docker build -t ragabi/multi-client ./client
+  - docker build -t ragabi/multi-nginx ./nginx
+  - docker build -t ragabi/multi-server ./server 
+  - docker build -t ragabi/multi-worker ./worker 
+# Login to docker hub 
+ - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+# Take those images and push them to docker hub 
+ - docker push ragabi/multi-client
+ - docker push ragabi/multi-nginx
+ - docker push ragabi/multi-serve
+ - docker push ragabi/multi-worker
+ 
