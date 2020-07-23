@@ -23,6 +23,6 @@ after_success:
 # Take those images and push them to docker hub 
   - docker push ragabi/multi-client
   - docker push ragabi/multi-nginx
-  - docker push ragabi/multi-serve
+  - docker push ragabi/multi-server
   - docker push ragabi/multi-worker
  
