@@ -9,7 +9,7 @@ services:
 before_install:
   - docker build -t ragabi/react-test -f ./client/Dockerfile.dev ./client 
 # Run the build image and testing it 
-sctipt:
+script:
   - docker run -e CI=true ragabi/react-test npm test
 # If the test wont return error code then after success will run 
 # Building all required images 
